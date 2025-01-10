@@ -1,13 +1,17 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import React from "react";
-import { fetchProducts, setPage } from "../store/productSlice";
+import { fetchProducts, Product, setPage } from "../store/productSlice";
 import { addToCart } from "../store/cartSlice";
 import { Link } from "react-router-dom";
 
 const ProductList = () => {
   const dispatch = useDispatch() as AppDispatch;
-  const { items, isLoading, currentPage } = {}
+  const { items, isLoading, currentPage } = { 
+    items : useSelector((state: RootState) => state.products.items),
+    isLoading : useSelector((state: RootState) => state.products.isLoading),
+    currentPage : useSelector((state: RootState) => state.products.currentPage)
+  }
 
   React.useEffect(() => {
     dispatch(fetchProducts(currentPage || 1));
@@ -19,7 +23,7 @@ const ProductList = () => {
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">Liste des Produits</h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {items.map((product) => (
+        {items.map((product:Product) => (
           <div key={product.id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
             <img
               src={product.thumbnail}
