@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 
 export interface Product {
   thumbnail: string;
@@ -32,8 +32,8 @@ export interface Product {
   quantity?: number;
 }
 // Product Slice
-export const fetchProducts = createAsyncThunk ('products/fetchProducts', async () => {
-    const response = await fetch('https://dummyjson.com/products')
+export const fetchProducts = createAsyncThunk ('products/fetchProducts', async (currentPage) => {
+    const response = await fetch('https://dummyjson.com/products?skip='+(currentPage-1)*30)
     const allProducts = await response.json();
     return allProducts.products;
   },
@@ -54,7 +54,7 @@ const productSlice = createSlice({
   initialState,
   reducers: {
     setPage: (state, action) => {
-
+      state.currentPage = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -65,7 +65,6 @@ const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.items = action.payload
-        console.log(action.payload)
       })
   },
 });

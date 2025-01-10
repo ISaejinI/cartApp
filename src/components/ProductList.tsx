@@ -63,7 +63,8 @@ const ProductList = () => {
         </button>
         <button
           onClick={() => dispatch(setPage(currentPage + 1))}
-          className="bg-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-400"
+          disabled={items.at(-1)?.id == 194}
+          className="bg-gray-300 text-gray-700 px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-400"
         >
           Suivant
         </button>
