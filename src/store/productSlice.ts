@@ -32,7 +32,7 @@ export interface Product {
   quantity?: number;
 }
 // Product Slice
-export const fetchProducts = createAsyncThunk ('products/fetchProducts', async (currentPage) => {
+export const fetchProducts = createAsyncThunk ('products/fetchProducts', async (currentPage:number) => {
     const response = await fetch('https://dummyjson.com/products?skip='+(currentPage-1)*30)
     const allProducts = await response.json();
     return allProducts.products;

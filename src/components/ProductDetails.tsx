@@ -7,7 +7,7 @@ const ProductDetails = () => {
 
   if (!id) return <p className="text-center text-gray-500 mt-8">Produit non trouvé</p>;
 
-  const product = {}
+  const product = useSelector((state: RootState) => state.products.items.find((e) => e.id == parseInt(id)))
 
   if (!product) return <p className="text-center text-gray-500 mt-8">Produit non trouvé</p>;
 
