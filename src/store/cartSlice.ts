@@ -12,7 +12,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       var itemToAdd = state.items.find((item) => item.id == action.payload.id)
-      if (itemToAdd != null && itemToAdd.quantity) {
+      if (itemToAdd && itemToAdd.quantity) {
         itemToAdd.quantity++
       } else {
         state.items.push({...action.payload, quantity: 1}) //Créer une copie pour pouvoir ajouter des elements
