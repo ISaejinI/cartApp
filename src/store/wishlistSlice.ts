@@ -11,9 +11,9 @@ const wishlistSlice = createSlice ({
     reducers: {
         toggleWishlist: (state, action) => {
             var itemToUpdate = state.items.find((item) => item.id == action.payload.id)
-            if (itemToUpdate != null) {
+            if (itemToUpdate) {
                 // supprimer de la liste
-                state.items = state.items.filter((item) => item.id != itemToUpdate.id)
+                state.items = state.items.filter((item) => item.id != action.payload.id)
             } else {
                 // ajouter à la liste
                 state.items.push(action.payload)
