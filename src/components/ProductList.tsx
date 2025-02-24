@@ -14,7 +14,7 @@ const ProductList = () => {
   }
 
   React.useEffect(() => {
-    dispatch(fetchProducts(currentPage || 1));
+    dispatch(fetchProducts(currentPage || 1)); //category
   }, [dispatch, currentPage]);
 
   if (isLoading) return <p className="text-center text-gray-500 mt-8">Chargement...</p>;
@@ -22,6 +22,7 @@ const ProductList = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold text-gray-800 text-center mb-8">Liste des Produits</h1>
+      {/* Créer une barre de recherche et une liste des catégories */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         {items.map((product:Product) => (
           <div key={product.id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">

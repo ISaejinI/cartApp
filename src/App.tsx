@@ -10,10 +10,12 @@ const App = () => {
       <div className="w-full mx-auto">
         <nav className="flex justify-center">
           <Link className="m-3" to="/">Accueil</Link>
+          <Link className="m-3" to="/products">Produits</Link>
           <Link className="m-3" to="/cart">Panier</Link>
         </nav>
         <Routes>
-          <Route path="/" element={<ProductList />} />
+          <Route path="/" />
+          <Route path="/products" element={<ProductList />} />
           <Route path="/products/:id" element={<ProductDetails />} />
           <Route path="/cart" element={<Cart />} />
         </Routes>

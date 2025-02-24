@@ -31,6 +31,7 @@ export interface Product {
   price: number;
   quantity?: number;
 }
+
 // Product Slice
 export const fetchProducts = createAsyncThunk ('products/fetchProducts', async (currentPage:number) => {
     const response = await fetch('https://dummyjson.com/products?skip='+(currentPage-1)*30)
@@ -43,6 +44,8 @@ const initialState: {
   items: Product[];
   isLoading: boolean;
   currentPage: number;
+  // search 
+  // category
 } = {
   items: [],
   isLoading: false,
