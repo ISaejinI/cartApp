@@ -3,6 +3,7 @@ import { AppDispatch, RootState } from "../store/store";
 import React from "react";
 import { fetchProducts, Product, setPage } from "../store/productSlice";
 import { addToCart } from "../store/cartSlice";
+import { toggleWishlist } from "../store/wishlistSlice";
 import { Link } from "react-router-dom";
 
 const ProductList = () => {
@@ -45,6 +46,11 @@ const ProductList = () => {
             >
               Voir le produit
             </Link>
+            <button
+              onClick={() => dispatch(toggleWishlist(product))}
+            >
+              toggle la liste d'envies
+            </button>
             <button
               onClick={() => dispatch(addToCart(product))}
               className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
