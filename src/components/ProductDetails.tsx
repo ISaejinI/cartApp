@@ -7,11 +7,11 @@ const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch() as AppDispatch;
 
-  if (!id) return <p className="text-center text-gray-500 mt-8">Produit non trouvé</p>;
+  if (!id) return <p className="text-center text-gray-500 mt-8 mb-auto">Produit non trouvé</p>;
 
   const product = useSelector((state: RootState) => state.products.items.find((e) => e.id == parseInt(id)))
 
-  if (!product) return <p className="text-center text-gray-500 mt-8">Produit non trouvé</p>;
+  if (!product) return <p className="text-center text-gray-500 mt-8 mb-auto">Produit non trouvé</p>;
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
