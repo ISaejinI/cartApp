@@ -1,11 +1,22 @@
 import { TruckIcon, SparklesIcon, FaceSmileIcon, GlobeEuropeAfricaIcon, ArrowUpRightIcon } from '@heroicons/react/24/outline';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from "react-router-dom";
-import { RootState } from '../store/store';
-import { Category } from '../store/categorySlice';
+import { AppDispatch, RootState } from '../store/store';
+import { Category, fetchCategories } from '../store/categorySlice';
+import React from 'react';
+import { fetchRandProducts } from '../store/productSlice';
 
 const Home = () => {
-    const categories = useSelector((state: RootState) => state.category.allCategories);
+    const dispatch = useDispatch() as AppDispatch;
+    const { categories, randomProducts } = {
+        categories: useSelector((state: RootState) => state.category.allCategories),
+        randomProducts: useSelector((state: RootState) => state.products.randomProducts),
+    }
+
+    React.useEffect(() => {
+        dispatch(fetchCategories());
+        dispatch(fetchRandProducts());
+    }, [dispatch])
 
     const randomCategories = [...categories].sort(() => 0.5 - Math.random()).slice(0, 6);
 
@@ -27,7 +38,6 @@ const Home = () => {
                     <h2 className="text-3xl font-display font-bold text-darkgreen mb-8">Catégories les plus recherchées</h2>
                     <div className='flex'>
                         <div className="w-1/2 overflow-hidden rounded-3xl mr-4 bg-[url('/fouet.jpg')] bg-cover bg-center">
-                            {/* <img src="/mostSearched.jpg" className='object-cover' /> */}
                         </div>
                         <div className='w-1/2 pl-4'>
                             {randomCategories.map((category: Category) => (

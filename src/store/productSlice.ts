@@ -47,18 +47,27 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ({
   return allProducts.products;
 })
 
+export const fetchRandProducts = createAsyncThunk('randomProducts/fetchRandProducts', async () => {
+  const randomId = Array.from({ length: 6 }, () => Math.floor(Math.random() * 193) + 1)
+  const allResponses = await Promise.all(randomId.map((id) => fetch('https://dummyjson.com/products/' + id))) ;
+  const randomProducts = await Promise.all(allResponses.map((response)=> response.json())) ;
+  return randomProducts;
+})
+
 const initialState: {
   items: Product[];
   isLoading: boolean;
   currentPage: number;
   currentSearch: string;
   currentCategory: string;
+  randomProducts: Product[]
 } = {
   items: [],
   isLoading: false,
   currentPage: 1,
   currentSearch: "",
   currentCategory: "",
+  randomProducts: [],
 };
 
 const productSlice = createSlice({
@@ -90,6 +99,10 @@ const productSlice = createSlice({
       .addCase(fetchProducts.fulfilled, (state, action) => {
         state.isLoading = false;
         state.items = action.payload
+      })
+
+      .addCase(fetchRandProducts.fulfilled, (state, action) => {
+        state.randomProducts = action.payload;
       })
   },
 });
