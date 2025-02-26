@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
-import React from "react";
+import React, { useState } from "react";
 import { fetchProducts, Product, setPage, setSearch, setCategory, setDefault } from "../store/productSlice";
 import { addToCart } from "../store/cartSlice";
 import { toggleWishlist } from "../store/wishlistSlice";
@@ -20,6 +20,8 @@ const ProductList = () => {
     categories: useSelector((state: RootState) => state.category.allCategories)
   }
 
+  let [searchContent, setSearchContent] = useState("");
+
   React.useEffect(() => {
     dispatch(fetchProducts({currentPage : currentPage || 1, currentSearch : currentSearch, currentCategory : currentCategory}));
     dispatch(fetchCategories());
@@ -35,8 +37,8 @@ const ProductList = () => {
 
       <div className="flex gap-8">
         <div className="flex">
-          <input type="text" name="search" id="search" placeholder="Rechercher un produit..." className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-64" />
-          <button onClick={() => dispatch(setSearch())} className="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+          <input onChange={(e) => setSearchContent(e.target.value) } type="text" name="search" id="search" placeholder="Rechercher un produit..." className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-64" />
+          <button onClick={() => dispatch(setSearch(searchContent))} className="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
             <MagnifyingGlassIcon className="size-6" />
           </button>
         </div>
