@@ -48,7 +48,7 @@ export const fetchProducts = createAsyncThunk('products/fetchProducts', async ({
 })
 
 export const fetchRandProducts = createAsyncThunk('randomProducts/fetchRandProducts', async () => {
-  const randomId = Array.from({ length: 6 }, () => Math.floor(Math.random() * 193) + 1)
+  const randomId = Array.from({ length: 3 }, () => Math.floor(Math.random() * 193) + 1)
   const allResponses = await Promise.all(randomId.map((id) => fetch('https://dummyjson.com/products/' + id))) ;
   const randomProducts = await Promise.all(allResponses.map((response)=> response.json())) ;
   return randomProducts;

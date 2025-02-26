@@ -23,7 +23,7 @@ const ProductList = () => {
   let [searchContent, setSearchContent] = useState("");
 
   React.useEffect(() => {
-    dispatch(fetchProducts({currentPage : currentPage || 1, currentSearch : currentSearch, currentCategory : currentCategory}));
+    dispatch(fetchProducts({ currentPage: currentPage || 1, currentSearch: currentSearch, currentCategory: currentCategory }));
     dispatch(fetchCategories());
   }, [dispatch, currentPage, currentSearch, currentCategory]);
 
@@ -32,12 +32,12 @@ const ProductList = () => {
   return (
     <div className="max-w-[1440px] mx-auto px-4 py-8 mb-auto">
       <h1 className="text-3xl font-bold font-display text-darkgreen text-center mb-8">Nos produits</h1>
-      
+
       {/* Créer une barre de recherche et une liste des catégories */}
 
       <div className="flex gap-8">
         <div className="flex">
-          <input onChange={(e) => setSearchContent(e.target.value) } type="text" name="search" id="search" placeholder="Rechercher un produit..." className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-64" />
+          <input onChange={(e) => setSearchContent(e.target.value)} type="text" name="search" id="search" placeholder="Rechercher un produit..." className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-64" />
           <button onClick={() => dispatch(setSearch(searchContent))} className="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
             <MagnifyingGlassIcon className="size-6" />
           </button>
@@ -53,44 +53,44 @@ const ProductList = () => {
 
       {items.length === 0 ? (
         <p className="text-center text-gray-500">Aucun produit ne correspon à votre recherche.</p>
-      ):(
+      ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-        {items.map((product: Product) => (
-          <div key={product.id} className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow group relative">
-            <Link to={`/products/${product.id}`}>
-              <img
-                src={product.thumbnail}
-                alt={product.title}
-                className="aspect-square w-full bg-gray-200 object-cover rounded-md mb-4 group-hover:opacity-75"
-              />
-            </Link>
-            <Link to={`/products/${product.id}`}><h2 className="text-xl font-semibold text-gray-700 mb-2">{product.title}</h2></Link>
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-gray-500 text-sm">
-                {product.rating} / 5
-                <span className="pl-2">( {product.reviews.length} avis )</span>
-              </span>
-            </div>
-            <button
-              onClick={() => dispatch(toggleWishlist(product))}
-              className="absolute top-6 right-6"
-            >
-              <HeartIcon className={`size-6 transition-colors ${wishlist.find((item) => item.id === product.id) ? 'text-pink fill-pink' : ''}`} />
-            </button>
-            <div className="w-full flex justify-between items-center">
-              <p className="text-gray-900 font-bold text-lg mb-2">{product.price} €</p>
+          {items.map((product: Product) => (
+            <div key={product.id} className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow group relative">
+              <Link to={`/products/${product.id}`}>
+                <img
+                  src={product.thumbnail}
+                  alt={product.title}
+                  className="aspect-square w-full bg-gray-200 object-cover rounded-md mb-4 group-hover:opacity-75"
+                />
+              </Link>
+              <Link to={`/products/${product.id}`}><h2 className="text-xl font-semibold text-gray-700 mb-2">{product.title}</h2></Link>
+              <div className="flex items-center justify-between mb-4">
+                <span className="text-gray-500 text-sm">
+                  {product.rating} / 5
+                  <span className="pl-2">( {product.reviews.length} avis )</span>
+                </span>
+              </div>
               <button
-                onClick={() => dispatch(addToCart(product))}
-                className="w-fit bg-neutralgreen text-white px-4 py-2 rounded hover:bg-darkgreen"
+                onClick={() => dispatch(toggleWishlist(product))}
+                className="absolute top-6 right-6"
               >
-                <PlusIcon className="size-6" />
+                <HeartIcon className={`size-6 transition-colors ${wishlist.find((item) => item.id === product.id) ? 'text-pink fill-pink' : ''}`} />
               </button>
+              <div className="w-full flex justify-between items-center">
+                <p className="text-gray-900 font-bold text-lg mb-2">{product.price} €</p>
+                <button
+                  onClick={() => dispatch(addToCart(product))}
+                  className="w-fit bg-neutralgreen text-white px-4 py-2 rounded hover:bg-darkgreen"
+                >
+                  <PlusIcon className="size-6" />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
       )}
-      
+
       <div className="flex justify-between mt-8">
         <button
           onClick={() => dispatch(setPage(currentPage - 1))}
