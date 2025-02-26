@@ -6,6 +6,7 @@ import { addToCart } from "../store/cartSlice";
 import { toggleWishlist } from "../store/wishlistSlice";
 import { Link } from "react-router-dom";
 import { HeartIcon } from "@heroicons/react/24/outline";
+import { fetchCategories } from "../store/categorySlice";
 
 const ProductList = () => {
   const dispatch = useDispatch() as AppDispatch;
@@ -18,6 +19,7 @@ const ProductList = () => {
 
   React.useEffect(() => {
     dispatch(fetchProducts(currentPage || 1)); //category
+    dispatch(fetchCategories());
   }, [dispatch, currentPage]);
 
   if (isLoading) return <p className="text-center text-gray-500 mt-8">Chargement...</p>;
