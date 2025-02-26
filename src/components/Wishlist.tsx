@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import { Product } from "../store/productSlice";
 import { Link } from "react-router-dom";
-import { HeartIcon } from "@heroicons/react/24/outline";
+import { HeartIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 const Wishlist = () => {
     const wishItems = useSelector((state: RootState) => state.wishlist.items);
@@ -20,37 +20,36 @@ const Wishlist = () => {
                 ):(
                     <div className="grid grid-cols-3 gap-6">
                     {wishItems.map((product: Product) => (
-                        <div key={product.id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
-                        <img
-                          src={product.thumbnail}
-                          alt={product.title}
-                          className="w-full h-48 object-cover rounded-lg mb-4"
-                        />
-                        <h2 className="text-xl font-semibold text-gray-700 mb-2">{product.title}</h2>
-                        <p className="text-gray-600 mb-2">Prix : {product.price} EUR</p>
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="bg-blue-100 text-blue-800 text-sm font-medium px-2.5 py-0.5 rounded">
-                            {product.reviews.length} Avis
-                          </span>
-                          <span className="text-gray-500 text-sm">Évaluation : {product.rating} / 5</span>
-                        </div>
-                        <Link
-                          to={`/products/${product.id}`}
-                          className="text-blue-500 underline hover:text-blue-700 mb-4 block"
-                        >
-                          Voir le produit
+                        <div key={product.id} className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow group relative">
+                        <Link to={`/products/${product.id}`}>
+                          <img
+                            src={product.thumbnail}
+                            alt={product.title}
+                            className="aspect-square w-full bg-gray-200 object-cover rounded-md mb-4 group-hover:opacity-75"
+                          />
                         </Link>
+                        <Link to={`/products/${product.id}`}><h2 className="text-xl font-semibold text-gray-700 mb-2">{product.title}</h2></Link>
+                        <div className="flex items-center justify-between mb-4">
+                          <span className="text-gray-500 text-sm">
+                            {product.rating} / 5
+                            <span className="pl-2">( {product.reviews.length} avis )</span>
+                          </span>
+                        </div>
                         <button
                           onClick={() => dispatch(toggleWishlist(product))}
+                          className="absolute top-6 right-6"
                         >
-                          <HeartIcon className="size-6 transition-colors fill-red-700" />
+                          <HeartIcon className="size-6 transition-colors text-pink fill-pink" />
                         </button>
-                        <button
-                          onClick={() => dispatch(addToCart(product))}
-                          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
-                        >
-                          Ajouter au panier
-                        </button>
+                        <div className="w-full flex justify-between items-center">
+                          <p className="text-gray-900 font-bold text-lg mb-2">{product.price} €</p>
+                          <button
+                            onClick={() => dispatch(addToCart(product))}
+                            className="w-fit bg-neutralgreen text-white px-4 py-2 rounded hover:bg-darkgreen"
+                          >
+                            <PlusIcon className="size-6" />
+                          </button>
+                        </div>
                       </div>
                     ))}
                 </div>
