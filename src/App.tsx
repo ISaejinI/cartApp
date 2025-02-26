@@ -7,9 +7,10 @@ import Home from './components/Home';
 import Wishlist from "./components/Wishlist";
 import { ShoppingBagIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from "react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 
 const App = () => {
-  const [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
+  let [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
 
   return (
     <Router>
@@ -31,8 +32,8 @@ const App = () => {
 
         {/* Mobile Menu */}
 
-        <div className="lg:hidden" role="dialog" aria-modal="true">
-          <div className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+        <Dialog className="lg:hidden" open={burgerMenuOpen} onClose={() => setBurgerMenuOpen(false)}>
+          <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
             <div className="flex items-center justify-end">
               <button type="button" onClick={() => setBurgerMenuOpen(false)}>
                 <XMarkIcon className="size-6" />
@@ -48,8 +49,8 @@ const App = () => {
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          </DialogPanel>
+        </Dialog>
 
         <Routes>
           <Route path="/" element={<Home />} />
