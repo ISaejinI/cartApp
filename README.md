@@ -59,6 +59,7 @@ Pour lancer l'application en mode développement
 
 ## Structure du projet
 
+```
 cartApp/
 │── src/                # Code source de l'application
 │   ├── components/     # Composants réutilisables
@@ -66,6 +67,7 @@ cartApp/
 │   ├── App.tsx         # Composant principal
 │── public/             # Ressources images
 │── index.html          # Fichier HTML principal
+```
 
 ## API
 
