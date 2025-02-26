@@ -1,9 +1,11 @@
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
 import { useParams } from "react-router-dom";
+import { addToCart } from "../store/cartSlice";
 
 const ProductDetails = () => {
   const { id } = useParams();
+  const dispatch = useDispatch() as AppDispatch;
 
   if (!id) return <p className="text-center text-gray-500 mt-8">Produit non trouvé</p>;
 
@@ -24,6 +26,12 @@ const ProductDetails = () => {
           <h1 className="text-4xl font-bold text-gray-800 mb-4">{product.title}</h1>
           <p className="text-gray-500 text-lg mb-2">Catégorie : {product.category}</p>
           <p className="text-gray-500 text-lg">Marque : {product.brand}</p>
+          <button
+            onClick={() => dispatch(addToCart(product))}
+            className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 w-full"
+          >
+            Ajouter au panier
+          </button>
         </div>
       </div>
 

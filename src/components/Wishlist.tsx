@@ -14,8 +14,11 @@ const Wishlist = () => {
         <>
         <section className="w-full">
             <div className="max-w-[1440px] mx-auto pt-16">
-                <h1 className="text-4xl font-display font-bold text-darkgreen mb-6">Tous les items de la Wishlist</h1>
-                <div className="grid grid-cols-3 gap-6">
+                <h1 className="text-4xl font-display font-bold text-darkgreen mb-8">Tous les items de la Wishlist</h1>
+                {wishItems.length === 0 ? (
+                    <p className="text-center text-gray-500">Il n'y a aucun produit dans votre liste d'envies.</p>
+                ):(
+                    <div className="grid grid-cols-3 gap-6">
                     {wishItems.map((product: Product) => (
                         <div key={product.id} className="bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow">
                         <img
@@ -51,6 +54,7 @@ const Wishlist = () => {
                       </div>
                     ))}
                 </div>
+                )} 
             </div>
         </section>
         </>
