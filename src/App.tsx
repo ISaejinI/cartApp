@@ -6,7 +6,6 @@ import ProductList from "./components/ProductList";
 import Home from './components/Home';
 import Wishlist from "./components/Wishlist";
 import { ShoppingBagIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import logoImg from "./assets/logo.png";
 import { useState } from "react";
 
 const App = () => {
@@ -16,7 +15,7 @@ const App = () => {
     <Router>
       <header className="w-full">
         <nav className="flex justify-between items-center max-w-[1440px] mx-auto py-6">
-          <Link to="/"><img className="h-[75px]" src={logoImg} /></Link>
+          <Link to="/"><img className="h-[75px]" src='/logo.png' /></Link>
           <div className="flex lg:hidden">
             <button type="button" onClick={() => setBurgerMenuOpen(true)}>
               <Bars3Icon className="size-6" />
