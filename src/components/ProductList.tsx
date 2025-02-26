@@ -9,10 +9,11 @@ import { HeartIcon } from "@heroicons/react/24/outline";
 
 const ProductList = () => {
   const dispatch = useDispatch() as AppDispatch;
-  const { items, isLoading, currentPage } = {
+  const { items, isLoading, currentPage, wishlist } = {
     items: useSelector((state: RootState) => state.products.items),
     isLoading: useSelector((state: RootState) => state.products.isLoading),
-    currentPage: useSelector((state: RootState) => state.products.currentPage)
+    currentPage: useSelector((state: RootState) => state.products.currentPage),
+    wishlist: useSelector((state: RootState) => state.wishlist.items)
   }
 
   React.useEffect(() => {
@@ -50,7 +51,7 @@ const ProductList = () => {
             <button
               onClick={() => dispatch(toggleWishlist(product))}
             >
-              <HeartIcon className="size-6" />
+              <HeartIcon className={`size-6 transition-colors ${wishlist.includes(product)?'fill-red-700':''}`} />
             </button>
             <button
               onClick={() => dispatch(addToCart(product))}
