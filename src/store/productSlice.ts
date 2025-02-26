@@ -33,23 +33,32 @@ export interface Product {
 }
 
 // Product Slice
-export const fetchProducts = createAsyncThunk ('products/fetchProducts', async (currentPage:number) => {
-    const response = await fetch('https://dummyjson.com/products?skip='+(currentPage-1)*30)
-    const allProducts = await response.json();
-    return allProducts.products;
-  },
-)
+export const fetchProducts = createAsyncThunk('products/fetchProducts', async ({currentPage, currentSearch, currentCategory}: {currentPage?: number, currentSearch?: string, currentCategory?:string}) => {
+  let url = 'https://dummyjson.com/products'
+  if (currentSearch) {
+    url += '/search?q=' + currentSearch
+  } else if (currentCategory) {
+    url += '/category/' + currentCategory
+  } else if (currentPage) {
+    url += '?skip=' + (currentPage - 1) * 30
+  }
+  const response = await fetch(url);
+  const allProducts = await response.json();
+  return allProducts.products;
+})
 
 const initialState: {
   items: Product[];
   isLoading: boolean;
   currentPage: number;
-  // search 
-  // category
+  currentSearch: string;
+  currentCategory: string;
 } = {
   items: [],
   isLoading: false,
   currentPage: 1,
+  currentSearch: "",
+  currentCategory: "",
 };
 
 const productSlice = createSlice({
@@ -59,6 +68,19 @@ const productSlice = createSlice({
     setPage: (state, action) => {
       state.currentPage = action.payload
     },
+
+    setSearch: (state, action) => {
+      state.currentSearch = action.payload
+    },
+
+    setCategory: (state, action) => {
+      state.currentCategory = action.payload
+    },
+
+    setDefault: (state) => {
+      state.currentSearch = initialState.currentSearch
+      state.currentCategory = initialState.currentCategory
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -73,5 +95,5 @@ const productSlice = createSlice({
 });
 
 
-export const { setPage } = productSlice.actions;
+export const { setPage, setSearch, setCategory, setDefault } = productSlice.actions;
 export default productSlice.reducer;
