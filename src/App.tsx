@@ -89,7 +89,7 @@ const App = () => {
         </Routes>
         
       <footer className="bg-darkgreen w-full text-white">
-        <div className="max-w-[1440px] mx-auto py-6 flex justify-between text-sm md:flex-col-reverse">
+        <div className="max-w-[1440px] mx-auto py-6 flex lg:flex-row justify-between text-sm md:items-center md:flex-col-reverse">
           <p>© 2025 Développé par <a href="https://github.com/ISaejinI">Lou-Anne Biet.</a> Tous droits réservés.</p>
           <ul className="flex flex-wrap items-center">
             <li>
