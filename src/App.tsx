@@ -8,9 +8,12 @@ import Wishlist from "./components/Wishlist";
 import { ShoppingBagIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import { useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
+import { useSelector } from "react-redux";
+import { RootState } from "./store/store";
 
 const App = () => {
   let [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
+  const cartItems = useSelector((state: RootState) => state.cart.items)
 
   return (
     <>
@@ -27,7 +30,7 @@ const App = () => {
               <Link className="m-3" to="/">Accueil</Link>
               <Link className="m-3" to="/products">Produits</Link>
               <Link className="m-3" to="/wishlist">Favoris</Link>
-              <Link className="m-3" to="/cart"><ShoppingBagIcon className="size-6" /></Link>
+              <Link className="m-3 relative" to="/cart"><ShoppingBagIcon className="size-6" /> {cartItems.length === 0? '':<span className="absolute text-xs text-white -top-3 -right-3 rounded-full bg-neutralgreen w-6 h-6 flex justify-center items-center">{cartItems.length}</span>}</Link>
             </div>
           </nav>
 

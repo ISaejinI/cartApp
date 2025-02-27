@@ -29,6 +29,7 @@ const cartSlice = createSlice({
         itemToUpdate.quantity = action.payload.quantity
       }
     },
+
   },
 });
 
