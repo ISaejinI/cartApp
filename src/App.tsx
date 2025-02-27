@@ -6,12 +6,35 @@ import ProductList from "./components/ProductList";
 import Home from './components/Home';
 import Wishlist from "./components/Wishlist";
 import { ShoppingBagIcon, Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Dialog, DialogPanel } from "@headlessui/react";
-import { useSelector } from "react-redux";
-import { RootState } from "./store/store";
+import { useDispatch, useSelector } from "react-redux";
+import {  RootState } from "./store/store";
+import { setStore as setStoreCart } from "./store/cartSlice";
+import { setStore as setStoreWishList } from "./store/wishlistSlice";
 
 const App = () => {
+  const store = useSelector((state:RootState)=>state)
+  const dispatch  = useDispatch()
+  useEffect(() => {
+    window.addEventListener('beforeunload', () => {
+      window.localStorage.setItem('store', JSON.stringify(store))
+    })
+    return () => window.removeEventListener('beforeunload', () => {})
+  }, [store])
+  useEffect(() => {
+    window.addEventListener("load", () => {
+      const store = window.localStorage.getItem('store')
+      if(store){
+        const storeJson = JSON.parse(store)
+        console.log("storeJson",storeJson);
+        dispatch(setStoreCart(storeJson.cart))
+        dispatch(setStoreWishList(storeJson.wishlist))
+      }
+      
+    })
+    return () => window.removeEventListener('load', () => {})
+  }, [store])
   let [burgerMenuOpen, setBurgerMenuOpen] = useState(false);
   const cartItems = useSelector((state: RootState) => state.cart.items)
 
@@ -66,7 +89,7 @@ const App = () => {
         </Routes>
         
       <footer className="bg-darkgreen w-full text-white">
-        <div className="max-w-[1440px] mx-auto py-6 flex justify-between text-sm">
+        <div className="max-w-[1440px] mx-auto py-6 flex justify-between text-sm md:flex-col-reverse">
           <p>© 2025 Développé par <a href="https://github.com/ISaejinI">Lou-Anne Biet.</a> Tous droits réservés.</p>
           <ul className="flex flex-wrap items-center">
             <li>

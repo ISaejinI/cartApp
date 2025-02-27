@@ -89,7 +89,12 @@ const productSlice = createSlice({
     setDefault: (state) => {
       state.currentSearch = initialState.currentSearch
       state.currentCategory = initialState.currentCategory
+    }, 
+    setStore: (state:any, action:any) => {
+      state = action.payload
     }
+
+   
   },
   extraReducers: (builder) => {
     builder
@@ -108,5 +113,5 @@ const productSlice = createSlice({
 });
 
 
-export const { setPage, setSearch, setCategory, setDefault } = productSlice.actions;
+export const { setPage, setSearch, setCategory, setDefault ,setStore} = productSlice.actions;
 export default productSlice.reducer;

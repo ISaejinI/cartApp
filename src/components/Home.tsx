@@ -7,6 +7,7 @@ import React from 'react';
 import { fetchRandProducts, Product } from '../store/productSlice';
 import { toggleWishlist } from '../store/wishlistSlice';
 import { addToCart } from '../store/cartSlice';
+import ProductCard from './ProductCard';
 
 const Home = () => {
     const dispatch = useDispatch() as AppDispatch;
@@ -86,37 +87,7 @@ const Home = () => {
                     <h2 className="text-4xl font-display font-bold text-darkgreen mb-8">Nos produits phares</h2>
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                         {randomProducts.map((product: Product) => (
-                            <div key={product.id} className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow group relative">
-                                <Link to={`/products/${product.id}`}>
-                                    <img
-                                        src={product.thumbnail}
-                                        alt={product.title}
-                                        className="aspect-square w-full bg-gray-200 object-cover rounded-md mb-4 group-hover:opacity-75"
-                                    />
-                                </Link>
-                                <Link to={`/products/${product.id}`}><h2 className="text-xl font-semibold text-gray-700 mb-2">{product.title}</h2></Link>
-                                <div className="flex items-center justify-between mb-4">
-                                    <span className="text-gray-500 text-sm">
-                                        {product.rating} / 5
-                                        <span className="pl-2">( {product.reviews.length} avis )</span>
-                                    </span>
-                                </div>
-                                <button
-                                    onClick={() => dispatch(toggleWishlist(product))}
-                                    className="absolute top-6 right-6"
-                                >
-                                    <HeartIcon className={`size-6 transition-colors ${wishlist.find((item) => item.id === product.id) ? 'text-pink fill-pink' : ''}`} />
-                                </button>
-                                <div className="w-full flex justify-between items-center">
-                                    <p className="text-gray-900 font-bold text-lg mb-2">{product.price} €</p>
-                                    <button
-                                        onClick={() => dispatch(addToCart(product))}
-                                        className="w-fit bg-neutralgreen text-white px-4 py-2 rounded hover:bg-darkgreen"
-                                    >
-                                        <PlusIcon className="size-6" />
-                                    </button>
-                                </div>
-                            </div>
+                          <ProductCard {...product} />
                         ))}
                     </div>
                 </div>

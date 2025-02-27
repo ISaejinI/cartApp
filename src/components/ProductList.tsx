@@ -2,21 +2,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store/store";
 import React, { useState } from "react";
 import { fetchProducts, Product, setPage, setSearch, setCategory, setDefault } from "../store/productSlice";
-import { addToCart } from "../store/cartSlice";
-import { toggleWishlist } from "../store/wishlistSlice";
-import { Link } from "react-router-dom";
-import { HeartIcon, PlusIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { fetchCategories, Category } from "../store/categorySlice";
+import ProductCard from "./ProductCard";
 
 const ProductList = () => {
   const dispatch = useDispatch() as AppDispatch;
-  const { items, isLoading, currentPage, currentSearch, currentCategory, wishlist, categories } = {
+  const { items, isLoading, currentPage, currentSearch, currentCategory, categories } = {
     items: useSelector((state: RootState) => state.products.items),
     isLoading: useSelector((state: RootState) => state.products.isLoading),
     currentPage: useSelector((state: RootState) => state.products.currentPage),
     currentSearch: useSelector((state: RootState) => state.products.currentSearch),
     currentCategory: useSelector((state: RootState) => state.products.currentCategory),
-    wishlist: useSelector((state: RootState) => state.wishlist.items),
     categories: useSelector((state: RootState) => state.category.allCategories)
   }
 
@@ -35,19 +32,22 @@ const ProductList = () => {
 
       {/* Créer une barre de recherche et une liste des catégories */}
 
-      <div className="flex gap-8">
-        <div className="flex">
-          <input onChange={(e) => setSearchContent(e.target.value)} type="text" name="search" id="search" placeholder="Rechercher un produit..." className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-64" />
-          <button onClick={() => dispatch(setSearch(searchContent))} className="p-2.5 ms-2 text-sm font-medium text-white bg-blue-700 rounded-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-            <MagnifyingGlassIcon className="size-6" />
-          </button>
+      <div className="flex gap-8 pb-8 justify-between">
+        <div className="flex gap-8">
+          <div className="flex">
+            <input onChange={(e) => setSearchContent(e.target.value)} type="text" name="search" id="search" placeholder="Rechercher un produit..." className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 min-w-64" />
+            <button onClick={() => dispatch(setSearch(searchContent))} className="p-2.5 ms-2 text-sm font-medium text-white bg-darkgreen rounded-lg border border-darkgreen hover:bg-neutralgreen focus:ring-4 focus:outline-none focus:ring-lightgreen">
+              <MagnifyingGlassIcon className="size-6" />
+            </button>
+          </div>
+          <select onChange={(e) => dispatch(setCategory(e.target.value))} name="category" id="cat" className="bg-gray-50 w-fit border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
+            <option defaultValue={""} value="">Sélectionner une catégorie</option>
+            {categories.map((category: Category) => (
+              <option key={category.slug} value={category.slug}>{category.name}</option>
+            ))}
+          </select>
         </div>
-        <select onChange={(e) => dispatch(setCategory(e.target.value))} name="category" id="cat" className="bg-gray-50 w-fit border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5">
-          <option defaultValue={""} value="">Sélectionner une catégorie</option>
-          {categories.map((category: Category) => (
-            <option key={category.slug} value={category.slug}>{category.name}</option>
-          ))}
-        </select>
+
         <button onClick={() => dispatch(setDefault())}>Réinitialiser les filtres</button>
       </div>
 
@@ -56,37 +56,7 @@ const ProductList = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {items.map((product: Product) => (
-            <div key={product.id} className="bg-white p-4 rounded-lg shadow-lg hover:shadow-xl transition-shadow group relative">
-              <Link to={`/products/${product.id}`}>
-                <img
-                  src={product.thumbnail}
-                  alt={product.title}
-                  className="aspect-square w-full bg-gray-200 object-cover rounded-md mb-4 group-hover:opacity-75"
-                />
-              </Link>
-              <Link to={`/products/${product.id}`}><h2 className="text-xl font-semibold text-gray-700 mb-2">{product.title}</h2></Link>
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-gray-500 text-sm">
-                  {product.rating} / 5
-                  <span className="pl-2">( {product.reviews.length} avis )</span>
-                </span>
-              </div>
-              <button
-                onClick={() => dispatch(toggleWishlist(product))}
-                className="absolute top-6 right-6"
-              >
-                <HeartIcon className={`size-6 transition-colors ${wishlist.find((item) => item.id === product.id) ? 'text-pink fill-pink' : ''}`} />
-              </button>
-              <div className="w-full flex justify-between items-center">
-                <p className="text-gray-900 font-bold text-lg mb-2">{product.price} €</p>
-                <button
-                  onClick={() => dispatch(addToCart(product))}
-                  className="w-fit bg-neutralgreen text-white px-4 py-2 rounded hover:bg-darkgreen"
-                >
-                  <PlusIcon className="size-6" />
-                </button>
-              </div>
-            </div>
+            <ProductCard {...product} />
           ))}
         </div>
       )}

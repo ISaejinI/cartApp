@@ -9,7 +9,7 @@ const ProductDetails = () => {
 
   if (!id) return <p className="text-center text-gray-500 mt-8 mb-auto">Produit non trouvé</p>;
 
-  const product = useSelector((state: RootState) => state.products.items.find((e) => e.id == parseInt(id)))
+  const product = useSelector((state: RootState) => state.products.items.find((e) => e.id == parseInt(id))??state.products.randomProducts.find((e) => e.id == parseInt(id)))
 
   if (!product) return <p className="text-center text-gray-500 mt-8 mb-auto">Produit non trouvé</p>;
 
